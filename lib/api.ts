@@ -68,6 +68,7 @@ export async function fetchNoteById(id: string): Promise<Note> {
       },
     }
   );
+  // console.log(response.data);
   return response.data;
 }
 

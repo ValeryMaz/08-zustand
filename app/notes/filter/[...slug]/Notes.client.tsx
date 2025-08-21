@@ -12,6 +12,7 @@ import NoteForm from "../../../../components/NoteForm/NoteForm";
 import SearchBox from "../../../../components/SearchBox/SearchBox";
 import { useDebounce } from "use-debounce";
 import css from "./Notes.module.css";
+import Link from "next/link";
 type initialProps = {
   initialData: NoteType;
   tag: string;
@@ -48,7 +49,6 @@ function NotesClient({ initialData, tag }: initialProps) {
   return (
     <div className={css.app}>
       <div className={css.toolbar}>
-        {/* Компонент SearchBox */}
         <SearchBox value={searchText} onSearch={handleSearchText} />
         {isSuccess && totalPages > 1 && (
           <Pagination
@@ -57,19 +57,23 @@ function NotesClient({ initialData, tag }: initialProps) {
             current={currentPage}
           />
         )}
-        <button className={css.button} onClick={openModal}>
+        <Link
+          href={"/notes/action/create"}
+          className={css.button}
+          onClick={openModal}
+        >
           Create note +
-        </button>
+        </Link>
       </div>
       {isLoading && <p>Загрузка...</p>}
       {error && <p>Ошибка: {error.message}</p>}
       {isSuccess && notes.length === 0 && <p>Нет заметок</p>}
       {isSuccess && notes?.length > 0 && <NoteList notes={notes} />}
-      {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <NoteForm onClose={closeModal} />
-        </Modal>
-      )}
+      {/* {isModalOpen && (
+        // <Modal onClose={closeModal}>
+        // <NoteForm onClose={closeModal} />
+        // </Modal>
+      )} */}
     </div>
   );
 }
