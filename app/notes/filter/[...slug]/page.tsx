@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import NotesClient from "./Notes.client";
 import { fetchNotes } from "@/lib/api";
 
@@ -7,7 +8,9 @@ interface fetchParams {
 
 // app/notes/[id]/page.tsx
 
-export async function generateMetadata({ params }: fetchParams) {
+export async function generateMetadata({
+  params,
+}: fetchParams): Promise<Metadata> {
   const { slug } = await params;
   const tagName = slug[0] === "All" ? "" : slug[0];
   let pageTitle: string; //"All Notes | Minimal Notes"

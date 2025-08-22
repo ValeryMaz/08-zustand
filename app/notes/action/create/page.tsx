@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Create New Note ",
   description:
-    "Add a new note with a title, text, and a categoryQuickly create a new note by adding a title, text, and selecting a category to keep your ideas organized.",
+    "Add a new note with a title, text, and a category. Quickly create a new note by adding a title, text, and selecting a category to keep your ideas organized.",
   openGraph: {
     title: `Create New Note | Minimal Notes`,
     description:

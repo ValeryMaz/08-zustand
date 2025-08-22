@@ -1,18 +1,16 @@
 "use client";
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { fetchNotes } from "../../../../lib/api";
-import type { NoteType } from "../../../../lib/api";
+import { fetchNotes, NoteType } from "../../../../lib/api";
 import type { Note } from "../../../../types/note";
 import NoteList from "../../../../components/NoteList/NoteList";
 import Pagination from "../../../../components/Pagination/Pagination";
 import { useState } from "react";
-import Modal from "../../../../components/Modal/Modal";
-import NoteForm from "../../../../components/NoteForm/NoteForm";
 import SearchBox from "../../../../components/SearchBox/SearchBox";
 import { useDebounce } from "use-debounce";
 import css from "./Notes.module.css";
 import Link from "next/link";
+
 type initialProps = {
   initialData: NoteType;
   tag: string;
@@ -20,15 +18,7 @@ type initialProps = {
 
 function NotesClient({ initialData, tag }: initialProps) {
   const [currentPage, setPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState<string>("");
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const perPage = 9;
   const [debouncedSearchText] = useDebounce(searchText, 300);
@@ -57,23 +47,14 @@ function NotesClient({ initialData, tag }: initialProps) {
             current={currentPage}
           />
         )}
-        <Link
-          href={"/notes/action/create"}
-          className={css.button}
-          onClick={openModal}
-        >
+        <Link href={"/notes/action/create"} className={css.button}>
           Create note +
         </Link>
       </div>
-      {isLoading && <p>Загрузка...</p>}
-      {error && <p>Ошибка: {error.message}</p>}
-      {isSuccess && notes.length === 0 && <p>Нет заметок</p>}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {isSuccess && notes.length === 0 && <p>Notes not found</p>}
       {isSuccess && notes?.length > 0 && <NoteList notes={notes} />}
-      {/* {isModalOpen && (
-        // <Modal onClose={closeModal}>
-        // <NoteForm onClose={closeModal} />
-        // </Modal>
-      )} */}
     </div>
   );
 }
